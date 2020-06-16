@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Ball.gd" type="Script" id=1]
+[ext_resource path="res://SFX/frogblock03.wav" type="AudioStream" id=2]
+
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 0.5
+
+[sub_resource type="SphereMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 1, 0.937255, 0, 1 )
+
+[sub_resource type="SphereShape" id=4]
+
+[node name="Ball" type="RigidBody"]
+collision_layer = 2
+collision_mask = 5
+physics_material_override = SubResource( 1 )
+continuous_cd = true
+contacts_reported = 1
+contact_monitor = true
+can_sleep = false
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
+shape = SubResource( 4 )
+
+[node name="KickSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 2 )
+unit_db = 10.0
+[connection signal="body_shape_entered" from="." to="." method="_on_Ball_body_shape_entered"]

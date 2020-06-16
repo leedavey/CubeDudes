@@ -1,0 +1,120 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pitch.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Models/Cubedude/CubeDude.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Models/Goal/Goal.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Models/Cubedude/CubeDubeBlue.material" type="Material" id=5]
+[ext_resource path="res://Game.gd" type="Script" id=6]
+[ext_resource path="res://GUI.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Airhorn.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Music.tscn" type="PackedScene" id=9]
+
+[sub_resource type="BoxShape" id=1]
+
+[node name="Game" type="Spatial"]
+script = ExtResource( 6 )
+
+[node name="Pitch" parent="." instance=ExtResource( 2 )]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 6, 14 )
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Player1" parent="Players" instance=ExtResource( 3 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -4.01053, 0.359877, 1.31718 )
+
+[node name="Cube Dube" parent="Players/Player1/Armature/Skeleton" index="0"]
+material/0 = ExtResource( 5 )
+
+[node name="Player2" parent="Players" instance=ExtResource( 3 )]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.4033, 0.359877, 1.31718 )
+playerId = 2
+
+[node name="Balls" type="Node" parent="."]
+
+[node name="Ball1" parent="Balls" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.195568, 2.92639, 2.9872 )
+
+[node name="Ball2" parent="Balls" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.74316, 4.07254, -1.14595 )
+
+[node name="Ball3" parent="Balls" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.04712, 4.07254, 0.604946 )
+
+[node name="Goal1" parent="." instance=ExtResource( 4 )]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -9.9, 0.2, 0.1 )
+
+[node name="Goal2" parent="." instance=ExtResource( 4 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 9.9, 0.2, 0.1 )
+
+[node name="Boundaries" type="Node" parent="."]
+
+[node name="Backwall" type="StaticBody" parent="Boundaries"]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Boundaries/Backwall"]
+shape = SubResource( 1 )
+
+[node name="Leftwall" type="StaticBody" parent="Boundaries"]
+transform = Transform( -1.95505e-06, 0, 1, 0, 1, 0, -12, 0, -1.62921e-07, -12.9, 0.5, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Boundaries/Leftwall"]
+shape = SubResource( 1 )
+
+[node name="Rightwall" type="StaticBody" parent="Boundaries"]
+transform = Transform( -1.95505e-06, 0, 1, 0, 1, 0, -12, 0, -1.62921e-07, 12.9, 0.5, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Boundaries/Rightwall"]
+shape = SubResource( 1 )
+
+[node name="Frontwall" type="StaticBody" parent="Boundaries"]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Boundaries/Frontwall"]
+shape = SubResource( 1 )
+
+[node name="Lights" type="Node" parent="."]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="Lights"]
+transform = Transform( 0.707107, -0.5, 0.5, 0.218543, 0.82702, 0.517954, -0.672487, -0.256977, 0.694063, 18.9375, 3.69017, 4.00124 )
+light_color = Color( 0.996078, 1, 0.831373, 1 )
+light_energy = 0.8
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_depth_range = 1
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StartPoints" type="Node" parent="."]
+
+[node name="Balls" type="Node" parent="StartPoints"]
+
+[node name="Ball1" type="Position3D" parent="StartPoints/Balls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3 )
+
+[node name="Ball2" type="Position3D" parent="StartPoints/Balls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4, -1 )
+
+[node name="Ball3" type="Position3D" parent="StartPoints/Balls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, 0.5 )
+
+[node name="Players" type="Node" parent="StartPoints"]
+
+[node name="GUI" parent="." instance=ExtResource( 7 )]
+
+[node name="Music" parent="." instance=ExtResource( 9 )]
+
+[node name="Airhorn" parent="." instance=ExtResource( 8 )]
+pitch_scale = 1.0
+[connection signal="body_entered" from="Goal1/GoalDetection" to="." method="_on_GoalDetection_body_entered" binds= [ 2 ]]
+[connection signal="body_entered" from="Goal2/GoalDetection" to="." method="_on_GoalDetection_body_entered" binds= [ 1 ]]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+[editable path="Players/Player1"]
+
+[editable path="Goal1"]
+
+[editable path="Goal2"]
